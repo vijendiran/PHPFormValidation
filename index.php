@@ -1,4 +1,9 @@
 <?php
+  $dbh = new PDO("mysql:host=localhost;dbname=dating","root","root");
+  $sql = "SELECT * FROM signform";
+  $accQuery = $dbh->query($sql);
+  $details = $accQuery->fetchAll(PDO::FETCH_ASSOC);
+
 $errors=[];
 function santizeInput($data){
   $santizedData = trim($data);
@@ -14,6 +19,7 @@ if(isset($_POST["submit-registerform"])){
     $firstName = santizeInput($_POST["firstname"]);
     $lastName = santizeInput($_POST["lastname"]);
     $emailCheck = santizeInput($_POST["email"]);
+
 
     // echo $firstName."</br>";
     // echo $lastName."</br>";
@@ -46,7 +52,11 @@ if(isset($_POST["submit-registerform"])){
      $errors["email"]= "email is invalid";
    }
    }
-}//post if statement
+   $dbh = new PDO("mysql:host=localhost;dbanme=dating","root","root");
+   $sql = "INSERT INTO signform (firstname, lastname, email) VALUES ('$firstName','$lastName','$emailCheck')";
+   $add = $dbh->query($sql);
+}
+//post if statement
 
 
  ?>
@@ -92,12 +102,24 @@ if(isset($_POST["submit-registerform"])){
           <div class="error"><?php if(isset($errors["email"])){echo $errors["email"];}?></div>
 
         </div>
+        <!-- Passwrod and confirm password -->
+     <!-- <div class="horizontal-group">
+       <div class="form-group left">
+         <label for="password" class="label-title">Password *</label>
+         <input type="password" id="password" class="form-input" placeholder="enter your password" required="required">
+       </div> -->
         <!-- Profile picture and Age -->
-       <div class="horizontal-group">
-         <div class="form-group left" >
+       <!-- <div class="horizontal-group">
+         <div class="form-group right" >
            <label for="choose-file" class="label-title">Upload Profile Picture</label>
            <input type="file" id="choose-file" size="80">
-         </div>
+         </div> -->
+         <!-- Bio -->
+     <!-- <div class="form-group">
+       <label for="choose-file" class="label-title">Bio</label>
+       <textarea class="form-input" rows="4" cols="50" style="height:auto"></textarea>
+     </div>
+   </div> -->
 
         <!-- form-footer -->
       <div class="form-footer">
